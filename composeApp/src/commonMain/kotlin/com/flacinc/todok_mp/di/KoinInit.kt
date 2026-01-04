@@ -8,7 +8,6 @@ fun initKoin() {
             platformModule,
             dataModule,
             domainModule,
-            networkModule,
             uiModule,
         )
     }
