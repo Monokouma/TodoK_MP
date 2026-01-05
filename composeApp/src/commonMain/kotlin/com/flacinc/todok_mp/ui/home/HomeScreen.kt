@@ -3,16 +3,18 @@ package com.flacinc.todok_mp.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -25,6 +27,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -59,7 +64,6 @@ fun HomeScreen(
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-
     Scaffold(
         modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.onSurface),
         topBar = {
@@ -70,16 +74,41 @@ fun HomeScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 actions = {
-                    IconButton(onClick = {
-                        /* recherche */
-                    }) {
-                        Icon(
-                            painterResource(Res.drawable.filter),
-                            contentDescription = "Filter",
-                            modifier = Modifier.size(28.dp),
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
+                    var expanded by remember { mutableStateOf(false) }
+                    Box {
+                        IconButton(onClick = { expanded = true }) {
+                            Icon(
+                                painterResource(Res.drawable.filter),
+                                contentDescription = "Filter",
+                                modifier = Modifier.size(28.dp),
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("A - Z") },
+                                onClick = {
+                                    // Action
+                                    expanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text("Z - A")
+                                       },
+                                onClick = {
+                                    // Action
+                                    expanded = false
+                                }
+                            )
+
+                        }
                     }
+
                 }
             )
         },
@@ -102,22 +131,24 @@ fun HomeScreen(
     ) { paddingValues ->
         when (val state = uiState.value) {
             HomeUiState.Loading -> {
-                LoadingContent(paddingValues)
+                HomeLoadingContent(paddingValues)
             }
 
             HomeUiState.Error -> {
-
+                HomeErrorContent(
+                    paddingValues
+                )
             }
 
             is HomeUiState.ShowMeetings -> {
-                HomeContent(
+                HomeWithMeetingsContent(
                     paddingValues,
                     meetingList = state.meetings.toImmutableList()
                 )
             }
 
             HomeUiState.EmptyMeetings -> {
-                EmptyMeetingsContent(
+                HomeWithoutMeetingsContent(
                     paddingValues
                 )
             }
@@ -126,7 +157,48 @@ fun HomeScreen(
 }
 
 @Composable
-private fun EmptyMeetingsContent(
+private fun HomeErrorContent(
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier
+) {
+    val composition by rememberLottieComposition {
+        LottieCompositionSpec.JsonString(
+            Res.readBytes("files/error.json").decodeToString()
+        )
+    }
+
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        speed = 0.4f
+    )
+
+    Column(
+        modifier = modifier.padding(paddingValues).fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Une erreur est survenue",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.error
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Image(
+            painter = rememberLottiePainter(
+                composition = composition,
+                progress = { progress }
+            ),
+            contentDescription = "Animation",
+            modifier = Modifier.size(200.dp)
+        )
+    }
+}
+
+
+@Composable
+private fun HomeWithoutMeetingsContent(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -172,7 +244,7 @@ private fun EmptyMeetingsContent(
 }
 
 @Composable
-private fun LoadingContent(
+private fun HomeLoadingContent(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -190,7 +262,7 @@ private fun LoadingContent(
 }
 
 @Composable
-private fun HomeContent(
+private fun HomeWithMeetingsContent(
     paddingValues: PaddingValues,
     meetingList: ImmutableList<String>,
     modifier: Modifier = Modifier
@@ -206,7 +278,7 @@ private fun HomeContent(
 @Composable
 private fun HomeScreenPreview() {
     TodoKMPTheme {
-        EmptyMeetingsContent(
+        HomeErrorContent(
             paddingValues = PaddingValues(0.dp)
         )
     }
@@ -218,7 +290,7 @@ private fun HomeScreenPreviewNight() {
     TodoKMPTheme(
         darkTheme = true
     ) {
-        EmptyMeetingsContent(
+        HomeErrorContent(
             paddingValues = PaddingValues(0.dp)
         )
     }
