@@ -2,5 +2,7 @@
 <resources>
     <string name="app_name">TodoK MP</string>
     <string name="splash_subtitle">Gérer vos réunions\nen toute simplicité</string>
-
+    <string name="home_top_bar_title">Mes Réunions</string>
+    <string name="home_no_meeting_title">Aucune réunion</string>
+    <string name="home_no_meeting_subtitle">Appuie sur + pour en créer une</string>
 </resources>

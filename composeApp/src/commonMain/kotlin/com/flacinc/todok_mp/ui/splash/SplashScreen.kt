@@ -13,6 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,16 +25,25 @@ import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
 import io.github.alexzhirkevich.compottie.rememberLottiePainter
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import todok_mp.composeapp.generated.resources.Res
 import todok_mp.composeapp.generated.resources.app_name
 import todok_mp.composeapp.generated.resources.splash_subtitle
 
+@Suppress("EffectKeys")
 @Composable
 fun SplashScreen(
-    modifier: Modifier = Modifier
+    onTimeout: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
+
+    LaunchedEffect(onTimeout) {
+        delay(2000)
+        onTimeout()
+    }
+
     val composition by rememberLottieComposition {
         LottieCompositionSpec.JsonString(
             Res.readBytes("files/business_meeting_animation.json").decodeToString()
@@ -91,7 +101,9 @@ fun SplashScreen(
 @Composable
 private fun SplashPreviewLight() {
     TodoKMPTheme {
-        SplashScreen()
+        SplashScreen(
+            onTimeout = {}
+        )
     }
 }
 
@@ -101,6 +113,8 @@ private fun SplashPreviewNight() {
     TodoKMPTheme(
         darkTheme = true
     ) {
-        SplashScreen()
+        SplashScreen(
+            onTimeout = {}
+        )
     }
 }

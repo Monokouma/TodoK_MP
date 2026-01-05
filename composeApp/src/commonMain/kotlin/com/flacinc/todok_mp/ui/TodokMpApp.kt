@@ -17,17 +17,28 @@ fun TodokMpApp(
 ) {
     val navController = rememberNavController()
 
+
     NavHost(
         navController = navController,
         startDestination = Screen.Splash.route
     ) {
 
         composable(Screen.Splash.route) {
-            SplashScreen()
+            SplashScreen(
+                onTimeout = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onFabClick = {
+                    navController.navigate(Screen.CreateMeeting.route)
+                }
+            )
         }
 
         composable(Screen.CreateMeeting.route) {

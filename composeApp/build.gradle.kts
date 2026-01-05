@@ -43,8 +43,9 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.compottie)
             implementation(libs.compottie.resources)
+            implementation(libs.kotlinx.collections.immutable)
+
             // Lifecycle / ViewModel / MVVM (JetBrains KMP)
-            // Inclut collectAsStateWithLifecycle
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
