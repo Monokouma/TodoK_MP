@@ -5,4 +5,8 @@
     <string name="home_top_bar_title">Mes Réunions</string>
     <string name="home_no_meeting_title">Aucune réunion</string>
     <string name="home_no_meeting_subtitle">Appuie sur + pour en créer une</string>
+    <string name="create_meeting_title">Créer une réunion</string>
+    <string name="room_404_name">Salle 404</string>
+    <string name="room_202_name">Salle 200</string>
+    <string name="room_500_name">Salle 500</string>
 </resources>
