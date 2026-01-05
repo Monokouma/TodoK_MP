@@ -1,5 +1,3 @@
-import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -42,7 +40,9 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
+            implementation(libs.navigation.compose)
+            implementation(libs.compottie)
+            implementation(libs.compottie.resources)
             // Lifecycle / ViewModel / MVVM (JetBrains KMP)
             // Inclut collectAsStateWithLifecycle
             implementation(libs.androidx.lifecycle.viewmodelCompose)
