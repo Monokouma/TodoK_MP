@@ -455,6 +455,7 @@ fun MeetingParticipantsField(
     modifier: Modifier = Modifier
 ) {
     var input by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     Column(modifier = modifier) {
         OutlinedTextField(
@@ -487,6 +488,7 @@ fun MeetingParticipantsField(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
+                    focusManager.clearFocus()
                     if (input.isNotBlank()) {
                         onParticipantAdd(input)
                         input = ""

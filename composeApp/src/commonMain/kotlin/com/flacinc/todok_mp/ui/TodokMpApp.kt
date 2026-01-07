@@ -47,7 +47,7 @@ fun TodokMpApp(
                     navController.popBackStack()
                 },
                 onSuccess = {
-                    navController.navigate(Screen.MeetingDetails.route)
+                    navController.popBackStack()
                 }
             )
         }

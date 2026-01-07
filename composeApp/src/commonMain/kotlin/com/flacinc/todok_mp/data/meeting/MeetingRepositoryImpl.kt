@@ -17,8 +17,7 @@ import kotlinx.coroutines.withContext
 
 class MeetingRepositoryImpl(
     private val queries: MeetingQueries,
-
-    ) : MeetingRepository {
+) : MeetingRepository {
     override suspend fun save(creationEntity: CreateMeetingEntity): Result<Unit> = withContext(
         Dispatchers.IO
     ) {

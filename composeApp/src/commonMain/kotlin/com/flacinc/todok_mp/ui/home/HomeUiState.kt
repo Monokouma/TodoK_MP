@@ -1,9 +1,12 @@
 package com.flacinc.todok_mp.ui.home
 
-sealed class HomeUiState {
-    data object Loading: HomeUiState()
-    data object Error: HomeUiState()
-    data class ShowMeetings(val meetings: List<String>): HomeUiState()
+import com.flacinc.todok_mp.ui.home.model.UiMeeting
+import kotlinx.collections.immutable.PersistentList
 
-    data object EmptyMeetings: HomeUiState()
+sealed class HomeUiState {
+    data object Loading : HomeUiState()
+    data object Error : HomeUiState()
+    data class ShowMeetings(val meetings: PersistentList<UiMeeting>) : HomeUiState()
+
+    data object EmptyMeetings : HomeUiState()
 }
