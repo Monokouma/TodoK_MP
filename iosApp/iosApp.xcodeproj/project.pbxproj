@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2754E14E2F0E8A4700ECDDEB /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2754E14D2F0E8A4700ECDDEB /* libsqlite3.tbd */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		2754E14D2F0E8A4700ECDDEB /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		99CACD6AB63CDE3487FA414B /* TodoK_MP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoK_MP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -41,17 +46,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2754E14E2F0E8A4700ECDDEB /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2754E14C2F0E8A4700ECDDEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2754E14D2F0E8A4700ECDDEB /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		345C1C2766787B8D6AFDCB1A = {
 			isa = PBXGroup;
 			children = (
 				44494117D85F40B58F0F4049 /* Configuration */,
 				9BAC9844275B94C328E57365 /* iosApp */,
+				2754E14C2F0E8A4700ECDDEB /* Frameworks */,
 				726833B0835A9A3643E6B10B /* Products */,
 			);
 			sourceTree = "<group>";

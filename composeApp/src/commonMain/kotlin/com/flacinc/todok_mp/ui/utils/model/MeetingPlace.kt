@@ -1,4 +1,4 @@
-package com.flacinc.todok_mp.domain.meeting.model
+package com.flacinc.todok_mp.ui.utils.model
 
 import androidx.compose.ui.graphics.Color
 import com.flacinc.todok_mp.ui.theme.Room200Color

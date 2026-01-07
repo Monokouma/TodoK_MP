@@ -2,8 +2,7 @@ package com.flacinc.todok_mp.domain.meeting
 
 import com.flacinc.todok_mp.domain.error_manager.TodokError
 import com.flacinc.todok_mp.domain.error_manager.TodokException
-import com.flacinc.todok_mp.domain.meeting.entity.MeetingCreationEntity
-import com.flacinc.todok_mp.domain.meeting.model.MeetingPlace
+import com.flacinc.todok_mp.domain.meeting.entity.CreateMeetingEntity
 
 class CreateMeetingUseCase(
     private val meetingRepository: MeetingRepository
@@ -13,7 +12,7 @@ class CreateMeetingUseCase(
         meetingTitle: String,
         meetingSubject: String,
         meetingTimeStamp: Long,
-        meetingPlace: MeetingPlace,
+        meetingPlace: String,
         participants: List<String>
     ): Result<Unit> {
         when {
@@ -23,7 +22,7 @@ class CreateMeetingUseCase(
         }
 
         return meetingRepository.save(
-            MeetingCreationEntity(
+            CreateMeetingEntity(
                 title = meetingTitle,
                 subject = meetingSubject,
                 timestamp = meetingTimeStamp,

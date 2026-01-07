@@ -55,7 +55,9 @@ fun TodokMpApp(
         composable(
             Screen.MeetingDetails.route,
         ) {
-            val itemId = navController.currentBackStackEntry?.savedStateHandle?.get<String>("meetingId")
+            val itemId =
+                navController.currentBackStackEntry?.savedStateHandle?.get<String>("meetingId")
+
             MeetingDetailsScreen()
         }
     }

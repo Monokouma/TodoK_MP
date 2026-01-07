@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flacinc.todok_mp.domain.error_manager.TodokError
 import com.flacinc.todok_mp.domain.meeting.CreateMeetingUseCase
-import com.flacinc.todok_mp.domain.meeting.model.MeetingPlace
+import com.flacinc.todok_mp.ui.utils.model.MeetingPlace
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,7 +78,7 @@ class CreateMeetingViewModel(
             createMeetingUseCase(
                 meetingTitle = _uiState.value.title,
                 meetingSubject = _uiState.value.subject,
-                meetingPlace = _uiState.value.meetingPlace,
+                meetingPlace = _uiState.value.meetingPlace.name,
                 meetingTimeStamp = _uiState.value.timestamp,
                 participants = _uiState.value.participants.toList(),
 

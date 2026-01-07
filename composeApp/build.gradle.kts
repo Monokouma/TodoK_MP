@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.lang.module.ModuleFinder.compose
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -27,6 +28,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            linkerOpts("-lsqlite3")
         }
     }
 
@@ -83,6 +85,8 @@ kotlin {
             implementation(libs.assertk)
             implementation(libs.ktor.client.mock)
             implementation(libs.ktor.client.mock)
+            implementation(libs.sqldelight.sqlite.driver)
+
 
         }
 
@@ -107,6 +111,16 @@ kotlin {
 
             implementation(libs.ktor.client.darwin)
         }
+
+        androidUnitTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlin.test.junit)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.assertk)
+            implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.mockk)
+            implementation(libs.turbine)
+        }
     }
 }
 
@@ -121,8 +135,7 @@ dependencies {
 sqldelight {
     databases {
         create("AppDatabase") {
-            packageName.set("com.flacinc.todok_mp.database")
-            generateAsync.set(true)
+            packageName.set("com.flacinc.todok_mp.data.database.sql")
         }
     }
 }
@@ -180,6 +193,7 @@ kover {
                     "com.flacinc.todok_mp.MainActivity",
                     "com.flacinc.todok_mp.MainApplication",
                     "com.flacinc.todok_mp.ui.navigation.*",
+                    "com.flacinc.todok_mp.data.database.*",
                     "todok_mp.composeapp.generated.resources.*"
                 )
                 packages(

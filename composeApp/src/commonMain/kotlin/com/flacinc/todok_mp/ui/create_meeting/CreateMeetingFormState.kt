@@ -1,7 +1,7 @@
 package com.flacinc.todok_mp.ui.create_meeting
 
 import androidx.compose.runtime.Immutable
-import com.flacinc.todok_mp.domain.meeting.model.MeetingPlace
+import com.flacinc.todok_mp.ui.utils.model.MeetingPlace
 import kotlinx.collections.immutable.PersistentList
 
 @Immutable

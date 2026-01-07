@@ -52,9 +52,9 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.flacinc.todok_mp.domain.meeting.model.MeetingPlace
 import com.flacinc.todok_mp.ui.theme.TodoKMPTheme
 import com.flacinc.todok_mp.ui.utils.millisToTimeString
+import com.flacinc.todok_mp.ui.utils.model.MeetingPlace
 import com.flacinc.todok_mp.ui.utils.timeStringToMillis
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

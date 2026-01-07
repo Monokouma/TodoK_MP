@@ -1,7 +1,7 @@
 package com.flacinc.todok_mp.domain.meetings.fake
 
 import com.flacinc.todok_mp.domain.meeting.MeetingRepository
-import com.flacinc.todok_mp.domain.meeting.entity.MeetingCreationEntity
+import com.flacinc.todok_mp.domain.meeting.entity.CreateMeetingEntity
 import io.ktor.utils.io.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -11,7 +11,7 @@ class FakeMeetingRepository(
     private val shouldFail: Boolean
 ) : MeetingRepository {
 
-    override suspend fun save(creationEntity: MeetingCreationEntity): Result<Unit> = withContext(
+    override suspend fun save(creationEntity: CreateMeetingEntity): Result<Unit> = withContext(
         Dispatchers.IO
     ) {
         try {
