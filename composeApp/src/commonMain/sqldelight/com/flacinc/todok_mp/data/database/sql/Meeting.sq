@@ -10,3 +10,9 @@ CREATE TABLE Meeting (
 insertMeeting:
 INSERT INTO Meeting (title, subject, timestamp, place, participants)
 VALUES (?, ?, ?, ?, ?);
+
+getAllMeetings:
+SELECT * FROM Meeting;
+
+deleteMeetingById:
+DELETE FROM Meeting WHERE id = ?;

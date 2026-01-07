@@ -10,11 +10,3 @@ fun CreateMeetingEntity.toDto(): CreateMeetingDto = CreateMeetingDto(
     participants = participants,
     meetingPlace = meetingPlace
 )
-
-fun CreateMeetingDto.toEntity(): CreateMeetingEntity = CreateMeetingEntity(
-    title = title,
-    subject = subject,
-    timestamp = timestamp,
-    participants = participants,
-    meetingPlace = meetingPlace
-)
