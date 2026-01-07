@@ -20,7 +20,6 @@ import kotlin.test.Test
 class CreateMeetingUseCaseUnitTest {
     private val testDispatcher = StandardTestDispatcher()
 
-
     @Test
     fun `nominal case - create meeting should succeed`() = runTest(testDispatcher) {
         val repository = mock<MeetingRepository>()
