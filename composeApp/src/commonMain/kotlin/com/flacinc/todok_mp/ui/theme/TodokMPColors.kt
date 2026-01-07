@@ -65,3 +65,7 @@ val OnPrimaryDark = Color(0xFFFFFFFF)
 
 val OutlineLight = Color(0xFFE0E0E0)
 val OutlineDark = Color(0xFF3D3D3D)
+
+val Room200Color = Color(0xFF754668)
+val Room404Color = Color(0xFFDE6B48)
+val Room500Color = Color(0xFF1B998B)
