@@ -6,11 +6,13 @@ import assertk.assertions.isEqualTo
 import com.flacinc.todok_mp.domain.meeting.GetMeetingsUseCase
 import com.flacinc.todok_mp.domain.meeting.MeetingRepository
 import com.flacinc.todok_mp.domain.meeting.entity.MeetingEntity
+import com.flacinc.todok_mp.ui.home.model.UiMeeting
 import com.flacinc.todok_mp.ui.utils.model.MeetingPlace
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verifySuspend
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -32,7 +34,7 @@ class GetMeetingsUseCaseUnitTest {
         useCase().test {
             val result = awaitItem()
             awaitComplete()
-            assertThat(result).isEqualTo(provideListOfMeetingEntity())
+            assertThat(result).isEqualTo(provideListOfUiMeetingEntity())
 
             verifySuspend {
                 repository.getMeetings()
@@ -45,9 +47,20 @@ class GetMeetingsUseCaseUnitTest {
             id = it.toLong(),
             title = "Daily+$it",
             subject = "Standup+$it",
-            timestamp = 123456L,
+            timestamp = 1767814643L,
             place = MeetingPlace.ROOM_200.name,
             participants = "Alice,Bob",
+        )
+    }
+
+    private fun provideListOfUiMeetingEntity() = List(3) {
+        UiMeeting(
+            id = it.toLong(),
+            title = "Daily+$it",
+            subject = "Standup+$it",
+            timestamp = "21/01/1970 12:03",
+            place = MeetingPlace.ROOM_200,
+            participants = persistentListOf("Alice", "Bob"),
         )
     }
 }

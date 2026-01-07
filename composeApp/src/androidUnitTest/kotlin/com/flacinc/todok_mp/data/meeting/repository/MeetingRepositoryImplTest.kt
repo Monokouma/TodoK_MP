@@ -105,4 +105,22 @@ class MeetingRepositoryImplTest {
 
         assertThat(result).isEqualTo(expectedResults)
     }
+
+    @Test
+    fun `nominal case - delete meeting by id`() = runTest(standardTestDispatcher) {
+        for (i in 1..3) {
+            val entity = CreateMeetingEntity(
+                title = "Daily+$i",
+                subject = "Standup+$i",
+                timestamp = 123456L,
+                meetingPlace = MeetingPlace.ROOM_200.name,
+                participants = listOf("Alice", "Bob"),
+            )
+            repository.save(entity)
+        }
+
+        repository.delete(1)
+
+        assertThat(repository.getMeetings().first().size).isEqualTo(2)
+    }
 }

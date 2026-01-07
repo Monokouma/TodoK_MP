@@ -1,8 +1,8 @@
 package com.flacinc.todok_mp.ui.home
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,11 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flacinc.todok_mp.ui.home.model.UiMeeting
 import com.flacinc.todok_mp.ui.theme.TodoKMPTheme
 import com.flacinc.todok_mp.ui.utils.model.MeetingPlace
+import com.flacinc.todok_mp.ui.utils.model.SortOrder
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
@@ -68,15 +70,20 @@ import todok_mp.composeapp.generated.resources.meeting_start_at
 import todok_mp.composeapp.generated.resources.participants_number
 import todok_mp.composeapp.generated.resources.plus
 
+@Suppress("EffectKeys")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onFabClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onMeetingClick: (Long) -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
-
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.cleanOldMeetings()
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.onSurface),
@@ -106,7 +113,7 @@ fun HomeScreen(
                             DropdownMenuItem(
                                 text = { Text("A - Z") },
                                 onClick = {
-                                    // Action
+                                    viewModel.updateSortOrder(SortOrder.NAME_ASC)
                                     expanded = false
                                 }
                             )
@@ -115,27 +122,27 @@ fun HomeScreen(
                                     Text("Z - A")
                                 },
                                 onClick = {
-                                    // Action
+                                    viewModel.updateSortOrder(SortOrder.NAME_DESC)
                                     expanded = false
                                 }
                             )
 
                             DropdownMenuItem(
                                 text = {
-                                    Text("Plus récent")
+                                    Text("Plus tôt d'abord")
                                 },
                                 onClick = {
-                                    // Action
+                                    viewModel.updateSortOrder(SortOrder.DATE_ASC)
                                     expanded = false
                                 }
                             )
 
                             DropdownMenuItem(
                                 text = {
-                                    Text("Plus ancien")
+                                    Text("Plus tard d'abord")
                                 },
                                 onClick = {
-                                    // Action
+                                    viewModel.updateSortOrder(SortOrder.DATE_DESC)
                                     expanded = false
                                 }
                             )
@@ -176,7 +183,10 @@ fun HomeScreen(
             is HomeUiState.ShowMeetings -> {
                 HomeWithMeetingsContent(
                     paddingValues,
-                    meetingList = state.meetings
+                    meetingList = state.meetings,
+                    onMeetingClick = {
+                        onMeetingClick(it)
+                    }
                 )
             }
 
@@ -298,6 +308,7 @@ private fun HomeLoadingContent(
 private fun HomeWithMeetingsContent(
     paddingValues: PaddingValues,
     meetingList: PersistentList<UiMeeting>,
+    onMeetingClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -308,13 +319,13 @@ private fun HomeWithMeetingsContent(
         ) {
             items(meetingList.size) { index ->
                 val meeting = meetingList[index]
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                ElevatedCard(
+                    onClick = {
+                        onMeetingClick(meeting.id)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(12.dp),
                     shape = MaterialTheme.shapes.medium,
-                    border = BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ),
                     colors = CardDefaults.cardColors(
                         containerColor = meeting.place.colorResource.copy(alpha = 0.8f),
                         contentColor = MaterialTheme.colorScheme.onBackground
@@ -324,7 +335,9 @@ private fun HomeWithMeetingsContent(
                         modifier = Modifier.padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Column {
+                        Column(
+                            Modifier.padding(start = 8.dp)
+                        ) {
                             Spacer(Modifier.height(8.dp))
 
                             Text(
@@ -337,7 +350,10 @@ private fun HomeWithMeetingsContent(
                             Spacer(Modifier.height(8.dp))
 
                             Text(
-                                stringResource(Res.string.participants_number, meeting.participants.size),
+                                stringResource(
+                                    Res.string.participants_number,
+                                    meeting.participants.size
+                                ),
                                 color = MaterialTheme.colorScheme.onBackground
                             )
 
@@ -348,13 +364,12 @@ private fun HomeWithMeetingsContent(
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(8.dp))
-
                         }
                         Spacer(Modifier.weight(1f))
                         Column {
 
                             Box(
-                                modifier = modifier
+                                modifier = Modifier
                                     .shadow(
                                         elevation = 8.dp,
                                         shape = RoundedCornerShape(16.dp),
@@ -372,11 +387,8 @@ private fun HomeWithMeetingsContent(
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
-
                             }
-
                         }
-
                     }
                 }
             }
@@ -391,7 +403,8 @@ private fun HomeScreenPreview() {
     TodoKMPTheme {
         HomeWithMeetingsContent(
             paddingValues = PaddingValues(0.dp),
-            provideListOfMeetingEntity().toPersistentList()
+            provideListOfMeetingEntity().toPersistentList(),
+            onMeetingClick = {}
         )
     }
 }
@@ -404,7 +417,8 @@ private fun HomeScreenPreviewNight() {
     ) {
         HomeWithMeetingsContent(
             paddingValues = PaddingValues(0.dp),
-            provideListOfMeetingEntity().toPersistentList()
+            provideListOfMeetingEntity().toPersistentList(),
+            onMeetingClick = {}
         )
     }
 }

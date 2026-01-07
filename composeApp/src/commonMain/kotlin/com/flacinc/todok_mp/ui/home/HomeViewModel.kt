@@ -1,7 +1,9 @@
 package com.flacinc.todok_mp.ui.home
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flacinc.todok_mp.domain.meeting.DeleteOldMeetingUseCase
 import com.flacinc.todok_mp.domain.meeting.GetMeetingsUseCase
 import com.flacinc.todok_mp.ui.home.model.UiMeeting
 import com.flacinc.todok_mp.ui.utils.model.SortOrder
@@ -12,9 +14,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
+@Stable
 class HomeViewModel(
-    private val getMeetingsUseCase: GetMeetingsUseCase
+    private val getMeetingsUseCase: GetMeetingsUseCase,
+    private val deleteOldMeetingUseCase: DeleteOldMeetingUseCase
 ) : ViewModel() {
 
     private val sortOrder = MutableStateFlow(SortOrder.NAME_ASC)
@@ -48,4 +53,9 @@ class HomeViewModel(
         SortOrder.DATE_DESC -> meetings.sortedByDescending { it.timestamp }
     }.toPersistentList()
 
+    fun cleanOldMeetings() {
+        viewModelScope.launch {
+            deleteOldMeetingUseCase()
+        }
+    }
 }

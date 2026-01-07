@@ -47,4 +47,8 @@ class MeetingRepositoryImpl(
             .asFlow()
             .mapToList(Dispatchers.IO)
             .map { list -> list.map { it.toDto().toEntity() } }
+
+    override suspend fun delete(meetingId: Long): Unit = withContext(Dispatchers.IO) {
+        queries.deleteMeetingById(meetingId)
+    }
 }

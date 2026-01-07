@@ -21,9 +21,11 @@ fun formatTimestamp(timestamp: Long): String {
     val instant = Instant.fromEpochMilliseconds(timestamp)
     val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
+    val hour = dateTime.hour.toString().padStart(2, '0')
+    val minutes = dateTime.minute.toString().padStart(2, '0')
     val day = dateTime.dayOfMonth.toString().padStart(2, '0')
     val month = dateTime.monthNumber.toString().padStart(2, '0')
     val year = dateTime.year
 
-    return "$day/$month/$year"  // "07/01/2026"
+    return "$day/$month/$year $hour:$minutes"
 }

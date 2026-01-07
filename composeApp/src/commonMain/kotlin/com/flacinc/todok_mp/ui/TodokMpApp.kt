@@ -2,9 +2,11 @@ package com.flacinc.todok_mp.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.flacinc.todok_mp.ui.create_meeting.CreateMeetingScreen
 import com.flacinc.todok_mp.ui.home.HomeScreen
 import com.flacinc.todok_mp.ui.meeting_details.MeetingDetailsScreen
@@ -37,6 +39,9 @@ fun TodokMpApp(
             HomeScreen(
                 onFabClick = {
                     navController.navigate(Screen.CreateMeeting.route)
+                },
+                onMeetingClick = {
+                    navController.navigate(Screen.MeetingDetails.createRoute(it))
                 }
             )
         }
@@ -54,11 +59,20 @@ fun TodokMpApp(
 
         composable(
             Screen.MeetingDetails.route,
+            arguments = listOf(
+                navArgument("meetingId") { type = NavType.LongType }
+            )
         ) {
             val itemId =
-                navController.currentBackStackEntry?.savedStateHandle?.get<String>("meetingId")
+                navController.currentBackStackEntry?.savedStateHandle?.get<Long>("meetingId")
+                    ?: return@composable
 
-            MeetingDetailsScreen()
+            MeetingDetailsScreen(
+                onBackPress = {
+                    navController.popBackStack()
+                },
+                meetingId = itemId
+            )
         }
     }
 }
