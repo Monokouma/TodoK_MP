@@ -3,6 +3,8 @@ package com.flacinc.todok_mp.ui.create_meeting
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flacinc.todok_mp.domain.error_manager.TodokError
+import com.flacinc.todok_mp.domain.meeting.CreateMeetingUseCase
 import com.flacinc.todok_mp.domain.meeting.model.MeetingPlace
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,12 +17,12 @@ import kotlin.time.Clock
 
 @Stable
 class CreateMeetingViewModel(
-
+    private val createMeetingUseCase: CreateMeetingUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<CreateMeetingFormState>(
+    private val _uiState = MutableStateFlow(
         CreateMeetingFormState(
-            timestamp = Clock.System.now().epochSeconds,
+            timestamp = Clock.System.now().toEpochMilliseconds(),
             meetingPlace = MeetingPlace.ROOM_200,
             subject = "",
             title = "",
@@ -48,6 +50,7 @@ class CreateMeetingViewModel(
     }
 
     fun updateTimestamp(value: Long) {
+        println(value)
         _uiState.update { it.copy(timestamp = value) }
     }
 
@@ -72,20 +75,31 @@ class CreateMeetingViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
-            /*
-            createMeetingUseCase(_uiState.value)
-                .onSuccess {
-                    _onSuccess.emit(Unit)
-                }
-                .onFailure { e ->
-                    _uiState.update { it.copy(errorMessage = e.message ?: "Erreur inconnue") }
-                }
+            createMeetingUseCase(
+                meetingTitle = _uiState.value.title,
+                meetingSubject = _uiState.value.subject,
+                meetingPlace = _uiState.value.meetingPlace,
+                meetingTimeStamp = _uiState.value.timestamp,
+                participants = _uiState.value.participants.toList(),
 
-                */
+                ).fold(
+                onSuccess = { success ->
+                    _onSuccess.emit(success)
+                },
+                onFailure = { failure ->
+                    _uiState.update { it.copy(errorMessage = transformErrorMessage(failure)) }
+                }
+            )
 
             _uiState.update { it.copy(isLoading = false) }
         }
     }
 
+    private fun transformErrorMessage(error: Throwable) = when (error.message) {
+        TodokError.MEETING_TITLE_EMPTY_VALUE.message -> "Le titre ne peut pas être vide"
+        TodokError.MEETING_SUBJECT_EMPTY_VALUE.message -> "Le sujet ne peut pas être vide"
+        TodokError.MEETING_PARTICIPANTS_EMPTY_VALUE.message -> "Vous devez ajouter au moins un participant"
+        else -> "Erreur inconnue"
+    }
 
 }
