@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.PersistentList
 @Immutable
 data class CreateMeetingFormState(
     val timestamp: Long,
-    val meetingPlace: MeetingPlace,
+    val room: MeetingPlace,
     val subject: String,
     val title: String,
     val participants: PersistentList<String>,

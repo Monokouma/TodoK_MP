@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -45,12 +46,18 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.flacinc.ui.home.model.UiMeeting
-
+import com.flacinc.ui.model.UiMeeting
+import com.flacinc.ui.resources.Res
+import com.flacinc.ui.resources.filter
+import com.flacinc.ui.resources.home_no_meeting_subtitle
+import com.flacinc.ui.resources.home_no_meeting_title
+import com.flacinc.ui.resources.home_top_bar_title
+import com.flacinc.ui.resources.meeting_start_at_two_line
+import com.flacinc.ui.resources.participants_number
+import com.flacinc.ui.resources.plus
 import com.flacinc.ui.theme.TodoKMPTheme
 import com.flacinc.ui.utils.model.MeetingPlace
 import com.flacinc.ui.utils.model.SortOrder
-
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
@@ -62,14 +69,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import com.flacinc.ui.resources.Res
-import com.flacinc.ui.resources.filter
-import com.flacinc.ui.resources.home_no_meeting_subtitle
-import com.flacinc.ui.resources.home_no_meeting_title
-import com.flacinc.ui.resources.home_top_bar_title
-import com.flacinc.ui.resources.meeting_start_at
-import com.flacinc.ui.resources.participants_number
-import com.flacinc.ui.resources.plus
 
 
 @Suppress("EffectKeys")
@@ -319,8 +318,8 @@ private fun HomeWithMeetingsContent(
     ) {
         LazyColumn(
         ) {
-            items(meetingList.size) { index ->
-                val meeting = meetingList[index]
+            items(meetingList) { meeting ->
+
                 ElevatedCard(
                     onClick = {
                         onMeetingClick(meeting.id)
@@ -329,7 +328,7 @@ private fun HomeWithMeetingsContent(
                         .padding(12.dp),
                     shape = MaterialTheme.shapes.medium,
                     colors = CardDefaults.cardColors(
-                        containerColor = meeting.place.colorResource.copy(alpha = 0.8f),
+                        containerColor = meeting.room.colorResource.copy(alpha = 0.8f),
                         contentColor = MaterialTheme.colorScheme.onBackground
                     ),
                 ) {
@@ -362,12 +361,13 @@ private fun HomeWithMeetingsContent(
                             Spacer(Modifier.height(8.dp))
 
                             Text(
-                                stringResource(Res.string.meeting_start_at, meeting.timestamp),
+                                stringResource(Res.string.meeting_start_at_two_line, meeting.timestamp),
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(8.dp))
                         }
                         Spacer(Modifier.weight(1f))
+                        
                         Column {
 
                             Box(
@@ -378,14 +378,14 @@ private fun HomeWithMeetingsContent(
                                         spotColor = Color.Black
                                     )
                                     .background(
-                                        color = meeting.place.colorResource,
+                                        color = meeting.room.colorResource,
                                         shape = RoundedCornerShape(16.dp)
                                     )
                                     .padding(horizontal = 16.dp).padding(vertical = 40.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    stringResource(meeting.place.resourceNameId),
+                                    stringResource(meeting.room.resourceNameId),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
@@ -431,7 +431,7 @@ private fun provideListOfMeetingEntity() = List(3) {
         title = "Daily+$it",
         subject = "Standup+$it",
         timestamp = "14:30",
-        place = MeetingPlace.entries[it],
+        room = MeetingPlace.entries[it],
         participants = persistentListOf("Alice", "Bob"),
     )
 }

@@ -18,7 +18,6 @@ import kotlin.test.Test
 class GetMeetingsUseCaseUnitTest {
     private val testDispatcher = StandardTestDispatcher()
 
-
     @Test
     fun `nominal case - should return success List of meetings`() = runTest(testDispatcher) {
         val repository = mock<MeetingRepository>()
@@ -45,7 +44,7 @@ class GetMeetingsUseCaseUnitTest {
             title = "Daily+$it",
             subject = "Standup+$it",
             timestamp = 1767814643L,
-            place = "ROOM_200",
+            room = "ROOM_200",
             participants = "Alice,Bob",
         )
     }

@@ -31,8 +31,8 @@ fun timeStringToMillis(
 
     val newDateTime = LocalDateTime(
         year = baseDateTime.year,
-        monthNumber = baseDateTime.monthNumber,
-        dayOfMonth = baseDateTime.dayOfMonth,
+        monthNumber = baseDateTime.month.ordinal,
+        dayOfMonth = baseDateTime.day,
         hour = hour,
         minute = minute,
         second = 0,
@@ -40,4 +40,17 @@ fun timeStringToMillis(
     )
 
     return newDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+}
+
+fun formatTimestamp(timestamp: Long): String {
+    val instant = Instant.fromEpochMilliseconds(timestamp)
+    val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+
+    val hour = dateTime.hour.toString().padStart(2, '0')
+    val minutes = dateTime.minute.toString().padStart(2, '0')
+    val day = dateTime.dayOfMonth.toString().padStart(2, '0')
+    val month = dateTime.monthNumber.toString().padStart(2, '0')
+    val year = dateTime.year
+
+    return "$day/$month/$year $hour:$minutes"
 }

@@ -8,9 +8,12 @@ import kotlinx.coroutines.flow.map
 class GetMeetingsUseCase(
     private val meetingRepository: MeetingRepository
 ) {
-    operator fun invoke(): Flow<List<MeetingEntity>> = meetingRepository.getMeetings().map {
-        it.map { meeting ->
-            meeting
-        }
-    }
+    operator fun invoke(): Flow<List<MeetingEntity>> =
+        meetingRepository
+            .getMeetings()
+            .map {
+                it.map { meeting ->
+                    meeting
+                }
+            }
 }

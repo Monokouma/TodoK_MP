@@ -23,7 +23,7 @@ class CreateMeetingViewModel(
     private val _uiState = MutableStateFlow(
         CreateMeetingFormState(
             timestamp = Clock.System.now().toEpochMilliseconds(),
-            meetingPlace = MeetingPlace.ROOM_200,
+            room = MeetingPlace.ROOM_200,
             subject = "",
             title = "",
             participants = persistentListOf(),
@@ -46,7 +46,7 @@ class CreateMeetingViewModel(
     }
 
     fun updateMeetingPlace(value: MeetingPlace) {
-        _uiState.update { it.copy(meetingPlace = value) }
+        _uiState.update { it.copy(room = value) }
     }
 
     fun updateTimestamp(value: Long) {
@@ -78,7 +78,7 @@ class CreateMeetingViewModel(
             createMeetingUseCase(
                 meetingTitle = _uiState.value.title,
                 meetingSubject = _uiState.value.subject,
-                meetingPlace = _uiState.value.meetingPlace.name,
+                meetingPlace = _uiState.value.room.name,
                 meetingTimeStamp = _uiState.value.timestamp,
                 participants = _uiState.value.participants.toList(),
 

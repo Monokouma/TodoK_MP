@@ -51,7 +51,7 @@ class DeleteOldMeetingUseCaseUnitTest {
                 3 -> 123
                 else -> 123
             },
-            place = "ROOM_200",
+            room = "ROOM_200",
             participants = "Alice,Bob",
         )
     }

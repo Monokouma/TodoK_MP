@@ -180,7 +180,7 @@ fun CreateMeetingContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         MeetingRoom(
-            meetingPlaceValue = state.meetingPlace,
+            meetingPlaceValue = state.room,
             onMeetingPlaceSelect = { onMeetingPlaceChange(it) }
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -521,7 +521,7 @@ private fun CreateMeetingScreenPreview() {
             paddingValues = PaddingValues(0.dp),
             state = CreateMeetingFormState(
                 timestamp = 1704545400000L,
-                meetingPlace = MeetingPlace.ROOM_200,
+                room = MeetingPlace.ROOM_200,
                 subject = "",
                 title = "",
                 participants = persistentListOf(),
@@ -548,7 +548,7 @@ private fun CreateMeetingScreenPreviewNight() {
             paddingValues = PaddingValues(0.dp),
             state = CreateMeetingFormState(
                 timestamp = 1704545400000L,
-                meetingPlace = MeetingPlace.ROOM_500,
+                room = MeetingPlace.ROOM_500,
                 subject = "",
                 title = "",
                 participants = persistentListOf(

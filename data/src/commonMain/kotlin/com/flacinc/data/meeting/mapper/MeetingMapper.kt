@@ -1,28 +1,18 @@
 package com.flacinc.data.meeting.mapper
 
-import com.flacinc.data.meeting.dto.MeetingDto
 import com.flacinc.domain.meeting.entity.MeetingEntity
 import com.flacinc.todokmp.data.database.sql.Meeting
 
 
-fun Meeting.toDto(): MeetingDto {
-    return MeetingDto(
+fun Meeting.toEntity(): MeetingEntity {
+    return MeetingEntity(
         id = id,
         title = title,
         subject = subject,
         timestamp = timestamp,
-        place = place,
+        room = room,
         participants = participants
     )
 }
-
-fun MeetingDto.toEntity(): MeetingEntity = MeetingEntity(
-    id = id,
-    title = title,
-    subject = subject,
-    timestamp = timestamp,
-    participants = participants,
-    place = place
-)
 
 

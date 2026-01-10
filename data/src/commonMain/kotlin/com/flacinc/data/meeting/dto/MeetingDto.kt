@@ -5,6 +5,6 @@ data class MeetingDto(
     val title: String,
     val subject: String,
     val timestamp: Long,
-    val place: String,
+    val room: String,
     val participants: String,
 )

@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flacinc.domain.meeting.DeleteOldMeetingUseCase
 import com.flacinc.domain.meeting.GetMeetingsUseCase
-import com.flacinc.ui.home.mapper.toUi
-import com.flacinc.ui.home.model.UiMeeting
+import com.flacinc.ui.mapper.toUi
+import com.flacinc.ui.model.UiMeeting
 import com.flacinc.ui.utils.model.SortOrder
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
