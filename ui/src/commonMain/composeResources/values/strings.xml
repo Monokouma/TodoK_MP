@@ -9,6 +9,33 @@
     <string name="room_404_name">Salle 404</string>
     <string name="room_202_name">Salle 200</string>
     <string name="room_500_name">Salle 500</string>
-    <string name="meeting_start_at">Début :\n%1$d</string>
+    <string name="meeting_start_at_two_line">Début :\n%1$d</string>
     <string name="participants_number">Participants : %1$d</string>
+    <string name="meeting_detail_title">Détails de la réunion</string>
+    <string name="meeting_details_error">Impossible de récupérer les détails de la réunion</string>
+    <string name="a_z_filter">A → Z</string>
+    <string name="z_a_filter">Z → A</string>
+    <string name="submit">Planifier</string>
+    <string name="error">Une erreur est survenue</string>
+    <string name="meeting_begin">Début de la réunion</string>
+    <string name="meeting_length">La durée d'une réunion est de 30 minutes</string>
+    <string name="start_hour">Heure de début</string>
+    <string name="create_meeting_name_example">Ex: Jean Dupont</string>
+    <string name="add_participants">Ajouter un participant</string>
+    <string name="create_meeting_subject_example">Ex: Voir les points bloquants du jour</string>
+    <string name="meeting_subject">Sujet de la réunion</string>
+
+    <string name="create_meeting_title_example">Ex: Voir les points bloquants du jour</string>
+    <string name="meeting_title">Sujet de la réunion</string>
+
+    <string name="meeting_title_empty_value">Le titre ne peut pas être vide</string>
+    <string name="meeting_subject_empty_value">Le sujet ne peut pas être vide</string>
+    <string name="meeting_participants_empty_value">Vous devez ajouter au moins un participant</string>
+
+    <string name="cd_animation">Animation</string>
+    <string name="cd_back">Retour</string>
+    <string name="cd_edit">Modifier</string>
+    <string name="cd_person">Personne</string>
+    <string name="cd_filter">Filtrer</string>
+    <string name="cd_add">Ajouter</string>
 </resources>

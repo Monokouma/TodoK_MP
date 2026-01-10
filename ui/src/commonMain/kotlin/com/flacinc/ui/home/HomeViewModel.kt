@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flacinc.domain.meeting.DeleteOldMeetingUseCase
 import com.flacinc.domain.meeting.GetMeetingsUseCase
-import com.flacinc.ui.home.mapper.toUi
-import com.flacinc.ui.home.model.UiMeeting
+import com.flacinc.ui.mapper.toUi
+import com.flacinc.ui.model.UiMeeting
 import com.flacinc.ui.utils.model.SortOrder
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -54,8 +54,6 @@ class HomeViewModel(
     ): PersistentList<UiMeeting> = when (sortOrder) {
         SortOrder.NAME_ASC -> meetings.sortedBy { it.title }
         SortOrder.NAME_DESC -> meetings.sortedByDescending { it.title }
-        SortOrder.DATE_ASC -> meetings.sortedBy { it.timestamp }
-        SortOrder.DATE_DESC -> meetings.sortedByDescending { it.timestamp }
     }.toPersistentList()
 
     fun cleanOldMeetings() {

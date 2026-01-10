@@ -1,4 +1,4 @@
-package com.flacinc.ui.home.model
+package com.flacinc.ui.model
 
 import com.flacinc.ui.utils.model.MeetingPlace
 import kotlinx.collections.immutable.PersistentList
@@ -8,6 +8,6 @@ data class UiMeeting(
     val title: String,
     val subject: String,
     val timestamp: String,
-    val place: MeetingPlace,
+    val room: MeetingPlace,
     val participants: PersistentList<String>
 )

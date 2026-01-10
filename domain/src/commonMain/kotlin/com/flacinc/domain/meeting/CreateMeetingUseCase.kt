@@ -2,7 +2,7 @@ package com.flacinc.domain.meeting
 
 import com.flacinc.domain.error_manager.TodokError
 import com.flacinc.domain.error_manager.TodokException
-import com.flacinc.domain.meeting.entity.CreateMeetingEntity
+import com.flacinc.domain.meeting.entity.MeetingEntity
 
 
 class CreateMeetingUseCase(
@@ -23,12 +23,12 @@ class CreateMeetingUseCase(
         }
 
         return meetingRepository.save(
-            CreateMeetingEntity(
+            meetingEntity = MeetingEntity(
                 title = meetingTitle,
                 subject = meetingSubject,
                 timestamp = meetingTimeStamp,
-                participants = participants,
-                meetingPlace = meetingPlace
+                participants = participants.joinToString(","),
+                room = meetingPlace
             )
         )
     }

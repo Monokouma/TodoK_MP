@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -45,12 +46,24 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.flacinc.ui.home.model.UiMeeting
-
+import com.flacinc.ui.model.UiMeeting
+import com.flacinc.ui.resources.Res
+import com.flacinc.ui.resources.a_z_filter
+import com.flacinc.ui.resources.cd_add
+import com.flacinc.ui.resources.cd_animation
+import com.flacinc.ui.resources.cd_filter
+import com.flacinc.ui.resources.error
+import com.flacinc.ui.resources.filter
+import com.flacinc.ui.resources.home_no_meeting_subtitle
+import com.flacinc.ui.resources.home_no_meeting_title
+import com.flacinc.ui.resources.home_top_bar_title
+import com.flacinc.ui.resources.meeting_start_at_two_line
+import com.flacinc.ui.resources.participants_number
+import com.flacinc.ui.resources.plus
+import com.flacinc.ui.resources.z_a_filter
 import com.flacinc.ui.theme.TodoKMPTheme
 import com.flacinc.ui.utils.model.MeetingPlace
 import com.flacinc.ui.utils.model.SortOrder
-
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
@@ -62,14 +75,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import com.flacinc.ui.resources.Res
-import com.flacinc.ui.resources.filter
-import com.flacinc.ui.resources.home_no_meeting_subtitle
-import com.flacinc.ui.resources.home_no_meeting_title
-import com.flacinc.ui.resources.home_top_bar_title
-import com.flacinc.ui.resources.meeting_start_at
-import com.flacinc.ui.resources.participants_number
-import com.flacinc.ui.resources.plus
 
 
 @Suppress("EffectKeys")
@@ -102,7 +107,7 @@ fun HomeScreen(
                         IconButton(onClick = { expanded = true }) {
                             Icon(
                                 painterResource(Res.drawable.filter),
-                                contentDescription = "Filter",
+                                contentDescription = stringResource(Res.string.cd_filter),
                                 modifier = Modifier.size(28.dp),
                                 tint = MaterialTheme.colorScheme.onPrimary
                             )
@@ -113,7 +118,9 @@ fun HomeScreen(
                             onDismissRequest = { expanded = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("A - Z") },
+                                text = {
+                                    Text(stringResource(Res.string.a_z_filter))
+                                },
                                 onClick = {
                                     viewModel.updateSortOrder(SortOrder.NAME_ASC)
                                     expanded = false
@@ -121,30 +128,10 @@ fun HomeScreen(
                             )
                             DropdownMenuItem(
                                 text = {
-                                    Text("Z - A")
+                                    Text(stringResource(Res.string.z_a_filter))
                                 },
                                 onClick = {
                                     viewModel.updateSortOrder(SortOrder.NAME_DESC)
-                                    expanded = false
-                                }
-                            )
-
-                            DropdownMenuItem(
-                                text = {
-                                    Text("Plus tôt d'abord")
-                                },
-                                onClick = {
-                                    viewModel.updateSortOrder(SortOrder.DATE_ASC)
-                                    expanded = false
-                                }
-                            )
-
-                            DropdownMenuItem(
-                                text = {
-                                    Text("Plus tard d'abord")
-                                },
-                                onClick = {
-                                    viewModel.updateSortOrder(SortOrder.DATE_DESC)
                                     expanded = false
                                 }
                             )
@@ -164,7 +151,7 @@ fun HomeScreen(
             ) {
                 Image(
                     painter = painterResource(Res.drawable.plus),
-                    contentDescription = "Plus",
+                    contentDescription = stringResource(Res.string.cd_add),
                     modifier = Modifier.size(60.dp),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
                 )
@@ -223,7 +210,7 @@ private fun HomeErrorContent(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Une erreur est survenue",
+            text = stringResource(Res.string.error),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.error
         )
@@ -235,7 +222,7 @@ private fun HomeErrorContent(
                 composition = composition,
                 progress = { progress }
             ),
-            contentDescription = "Animation",
+            contentDescription = stringResource(Res.string.cd_animation),
             modifier = Modifier.size(200.dp)
         )
     }
@@ -282,7 +269,7 @@ private fun HomeWithoutMeetingsContent(
                 composition = composition,
                 progress = { progress }
             ),
-            contentDescription = "Animation",
+            contentDescription = stringResource(Res.string.cd_animation),
             modifier = Modifier.size(200.dp)
         )
     }
@@ -319,8 +306,8 @@ private fun HomeWithMeetingsContent(
     ) {
         LazyColumn(
         ) {
-            items(meetingList.size) { index ->
-                val meeting = meetingList[index]
+            items(meetingList) { meeting ->
+
                 ElevatedCard(
                     onClick = {
                         onMeetingClick(meeting.id)
@@ -329,7 +316,7 @@ private fun HomeWithMeetingsContent(
                         .padding(12.dp),
                     shape = MaterialTheme.shapes.medium,
                     colors = CardDefaults.cardColors(
-                        containerColor = meeting.place.colorResource.copy(alpha = 0.8f),
+                        containerColor = meeting.room.colorResource.copy(alpha = 0.8f),
                         contentColor = MaterialTheme.colorScheme.onBackground
                     ),
                 ) {
@@ -362,12 +349,16 @@ private fun HomeWithMeetingsContent(
                             Spacer(Modifier.height(8.dp))
 
                             Text(
-                                stringResource(Res.string.meeting_start_at, meeting.timestamp),
+                                stringResource(
+                                    Res.string.meeting_start_at_two_line,
+                                    meeting.timestamp
+                                ),
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(8.dp))
                         }
                         Spacer(Modifier.weight(1f))
+
                         Column {
 
                             Box(
@@ -378,14 +369,14 @@ private fun HomeWithMeetingsContent(
                                         spotColor = Color.Black
                                     )
                                     .background(
-                                        color = meeting.place.colorResource,
+                                        color = meeting.room.colorResource,
                                         shape = RoundedCornerShape(16.dp)
                                     )
                                     .padding(horizontal = 16.dp).padding(vertical = 40.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    stringResource(meeting.place.resourceNameId),
+                                    stringResource(meeting.room.resourceNameId),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
@@ -431,7 +422,7 @@ private fun provideListOfMeetingEntity() = List(3) {
         title = "Daily+$it",
         subject = "Standup+$it",
         timestamp = "14:30",
-        place = MeetingPlace.entries[it],
+        room = MeetingPlace.entries[it],
         participants = persistentListOf("Alice", "Bob"),
     )
 }

@@ -3,12 +3,12 @@ CREATE TABLE Meeting (
     title TEXT NOT NULL,
     subject TEXT NOT NULL,
     timestamp INTEGER NOT NULL,
-    place TEXT NOT NULL,
+    room TEXT NOT NULL,
     participants TEXT NOT NULL
 );
 
 insertMeeting:
-INSERT INTO Meeting (title, subject, timestamp, place, participants)
+INSERT INTO Meeting (title, subject, timestamp, room, participants)
 VALUES (?, ?, ?, ?, ?);
 
 getAllMeetings:
@@ -16,3 +16,6 @@ SELECT * FROM Meeting;
 
 deleteMeetingById:
 DELETE FROM Meeting WHERE id = ?;
+
+getMeetingById:
+SELECT * FROM Meeting WHERE id = ?;

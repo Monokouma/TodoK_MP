@@ -1,6 +1,6 @@
 package com.flacinc.ui.home
 
-import com.flacinc.ui.home.model.UiMeeting
+import com.flacinc.ui.model.UiMeeting
 import kotlinx.collections.immutable.PersistentList
 
 sealed class HomeUiState {

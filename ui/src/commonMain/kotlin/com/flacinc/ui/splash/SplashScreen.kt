@@ -19,6 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.flacinc.ui.resources.Res
+import com.flacinc.ui.resources.app_name
+import com.flacinc.ui.resources.cd_animation
+import com.flacinc.ui.resources.splash_subtitle
 import com.flacinc.ui.theme.TodoKMPTheme
 import io.github.alexzhirkevich.compottie.Compottie
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
@@ -28,12 +32,7 @@ import io.github.alexzhirkevich.compottie.rememberLottiePainter
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import com.flacinc.ui.resources.Res
-import com.flacinc.ui.resources.app_name
-import com.flacinc.ui.resources.splash_subtitle
 
-
-@Suppress("EffectKeys")
 @Composable
 fun SplashScreen(
     onTimeout: () -> Unit,
@@ -83,7 +82,7 @@ fun SplashScreen(
                 composition = composition,
                 progress = { progress }
             ),
-            contentDescription = "Animation",
+            contentDescription = stringResource(Res.string.cd_animation),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.weight(1f))

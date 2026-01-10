@@ -52,12 +52,28 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
+import com.flacinc.ui.resources.Res
+import com.flacinc.ui.resources.add_participants
+import com.flacinc.ui.resources.arrow_back
+import com.flacinc.ui.resources.cd_back
+import com.flacinc.ui.resources.cd_edit
+import com.flacinc.ui.resources.cd_person
+import com.flacinc.ui.resources.create_meeting_name_example
+import com.flacinc.ui.resources.create_meeting_subject_example
+import com.flacinc.ui.resources.create_meeting_title
+import com.flacinc.ui.resources.create_meeting_title_example
+import com.flacinc.ui.resources.edit
+import com.flacinc.ui.resources.meeting_begin
+import com.flacinc.ui.resources.meeting_length
+import com.flacinc.ui.resources.meeting_subject
+import com.flacinc.ui.resources.meeting_title
+import com.flacinc.ui.resources.person
+import com.flacinc.ui.resources.start_hour
+import com.flacinc.ui.resources.submit
 import com.flacinc.ui.theme.TodoKMPTheme
 import com.flacinc.ui.utils.millisToTimeString
 import com.flacinc.ui.utils.model.MeetingPlace
 import com.flacinc.ui.utils.timeStringToMillis
-
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -67,11 +83,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import com.flacinc.ui.resources.Res
-import com.flacinc.ui.resources.arrow_back
-import com.flacinc.ui.resources.create_meeting_title
-import com.flacinc.ui.resources.edit
-import com.flacinc.ui.resources.person
 import kotlin.time.Clock
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,8 +97,9 @@ fun CreateMeetingScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     state.errorMessage?.let { message ->
+        val messageString = stringResource(message)
         LaunchedEffect(message) {
-            snackbarHostState.showSnackbar(message)
+            snackbarHostState.showSnackbar(messageString)
             viewModel.clearError()
         }
     }
@@ -112,7 +124,7 @@ fun CreateMeetingScreen(
                 navigationIcon = {
                     Icon(
                         painterResource(Res.drawable.arrow_back),
-                        contentDescription = "Back",
+                        contentDescription = stringResource(Res.string.cd_back),
                         tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(40.dp).clickable {
                             onBackPress()
@@ -180,7 +192,7 @@ fun CreateMeetingContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         MeetingRoom(
-            meetingPlaceValue = state.meetingPlace,
+            meetingPlaceValue = state.room,
             onMeetingPlaceSelect = { onMeetingPlaceChange(it) }
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -214,7 +226,7 @@ private fun MeetingSubmitButton(
             disabledContentColor = MaterialTheme.colorScheme.onPrimary
         ),
     ) {
-        Text("Submit")
+        Text(stringResource(Res.string.submit))
     }
 }
 
@@ -230,7 +242,7 @@ private fun MeetingSchedule(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            "Début de la réunion",
+            stringResource(Res.string.meeting_begin),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth(),
@@ -238,7 +250,7 @@ private fun MeetingSchedule(
 
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            "La durée d'une réunion est de 30 minutes",
+            stringResource(Res.string.meeting_length),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth(),
@@ -249,7 +261,7 @@ private fun MeetingSchedule(
         TimeDropdown(
             selectedTime = millisToTimeString(timestamp),
             onTimeSelect = { onTimestampChange(timeStringToMillis(it)) },
-            label = "Heure de début",
+            label = stringResource(Res.string.start_hour),
             modifier = Modifier.padding(16.dp)
         )
     }
@@ -260,8 +272,8 @@ private fun MeetingSchedule(
 fun TimeDropdown(
     selectedTime: String,
     onTimeSelect: (String) -> Unit,
+    label: String,
     modifier: Modifier = Modifier,
-    label: String = "Start Time",
     minHour: Int = 8,
     maxHour: Int = 18
 ) {
@@ -373,20 +385,20 @@ fun MeetingTitleField(
         onValueChange = onValueChange,
         label = {
             Text(
-                "Titre de la réunion",
+                stringResource(Res.string.meeting_title),
                 color = MaterialTheme.colorScheme.onBackground
             )
         },
         placeholder = {
             Text(
-                "Ex: Point hebdomadaire",
+                stringResource(Res.string.create_meeting_title_example),
                 color = MaterialTheme.colorScheme.onBackground
             )
         },
         leadingIcon = {
             Icon(
                 painter = painterResource(Res.drawable.edit),
-                contentDescription = "Edit",
+                contentDescription = stringResource(Res.string.cd_edit),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         },
@@ -415,20 +427,20 @@ fun MeetingSubjectField(
         onValueChange = onValueChange,
         label = {
             Text(
-                "Sujet de la réunion",
+                stringResource(Res.string.meeting_subject),
                 color = MaterialTheme.colorScheme.onBackground
             )
         },
         placeholder = {
             Text(
-                "Ex: Voir les points bloquants du jour",
+                stringResource(Res.string.create_meeting_subject_example),
                 color = MaterialTheme.colorScheme.onBackground
             )
         },
         leadingIcon = {
             Icon(
                 painter = painterResource(Res.drawable.edit),
-                contentDescription = "Edit",
+                contentDescription = stringResource(Res.string.cd_edit),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         },
@@ -462,20 +474,20 @@ fun MeetingParticipantsField(
             onValueChange = { input = it },
             label = {
                 Text(
-                    "Ajouter un participant",
+                    stringResource(Res.string.add_participants),
                     color = MaterialTheme.colorScheme.onBackground
                 )
             },
             placeholder = {
                 Text(
-                    "Ex: Jean Dupont",
+                    stringResource(Res.string.create_meeting_name_example),
                     color = MaterialTheme.colorScheme.onBackground
                 )
             },
             leadingIcon = {
                 Icon(
                     painter = painterResource(Res.drawable.person),
-                    contentDescription = "Person",
+                    contentDescription = stringResource(Res.string.cd_person),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
@@ -521,7 +533,7 @@ private fun CreateMeetingScreenPreview() {
             paddingValues = PaddingValues(0.dp),
             state = CreateMeetingFormState(
                 timestamp = 1704545400000L,
-                meetingPlace = MeetingPlace.ROOM_200,
+                room = MeetingPlace.ROOM_200,
                 subject = "",
                 title = "",
                 participants = persistentListOf(),
@@ -548,7 +560,7 @@ private fun CreateMeetingScreenPreviewNight() {
             paddingValues = PaddingValues(0.dp),
             state = CreateMeetingFormState(
                 timestamp = 1704545400000L,
-                meetingPlace = MeetingPlace.ROOM_500,
+                room = MeetingPlace.ROOM_500,
                 subject = "",
                 title = "",
                 participants = persistentListOf(

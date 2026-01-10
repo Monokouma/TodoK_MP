@@ -7,7 +7,7 @@ import assertk.assertions.isSuccess
 import com.flacinc.domain.error_manager.TodokError
 import com.flacinc.domain.meeting.CreateMeetingUseCase
 import com.flacinc.domain.meeting.MeetingRepository
-import com.flacinc.domain.meeting.entity.CreateMeetingEntity
+import com.flacinc.domain.meeting.entity.MeetingEntity
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
@@ -26,12 +26,12 @@ class CreateMeetingUseCaseUnitTest {
 
         everySuspend {
             repository.save(
-                CreateMeetingEntity(
+                MeetingEntity(
                     title = DEFAULT_MEETING_TITLE,
                     subject = DEFAULT_MEETING_SUBJECT,
                     timestamp = DEFAULT_TIMESTAMP,
-                    meetingPlace = DEFAULT_MEETING_PLACE,
-                    participants = DEFAULT_PARTICIPANTS_LIST,
+                    room = DEFAULT_MEETING_PLACE,
+                    participants = DEFAULT_PARTICIPANTS_STRING,
                 )
             )
         } returns Result.success(Unit)
@@ -50,12 +50,12 @@ class CreateMeetingUseCaseUnitTest {
 
         verifySuspend {
             repository.save(
-                CreateMeetingEntity(
+                MeetingEntity(
                     title = DEFAULT_MEETING_TITLE,
                     subject = DEFAULT_MEETING_SUBJECT,
                     timestamp = DEFAULT_TIMESTAMP,
-                    meetingPlace = DEFAULT_MEETING_PLACE,
-                    participants = DEFAULT_PARTICIPANTS_LIST,
+                    room = DEFAULT_MEETING_PLACE,
+                    participants = DEFAULT_PARTICIPANTS_STRING,
                 )
             )
         }
@@ -67,12 +67,12 @@ class CreateMeetingUseCaseUnitTest {
 
         everySuspend {
             repository.save(
-                CreateMeetingEntity(
+                MeetingEntity(
                     title = DEFAULT_MEETING_TITLE,
                     subject = DEFAULT_MEETING_SUBJECT,
                     timestamp = DEFAULT_TIMESTAMP,
-                    meetingPlace = DEFAULT_MEETING_PLACE,
-                    participants = DEFAULT_PARTICIPANTS_LIST,
+                    room = DEFAULT_MEETING_PLACE,
+                    participants = DEFAULT_PARTICIPANTS_STRING,
                 )
             )
         } returns Result.failure(Exception(""))
@@ -91,12 +91,12 @@ class CreateMeetingUseCaseUnitTest {
 
         verifySuspend {
             repository.save(
-                CreateMeetingEntity(
+                MeetingEntity(
                     title = DEFAULT_MEETING_TITLE,
                     subject = DEFAULT_MEETING_SUBJECT,
                     timestamp = DEFAULT_TIMESTAMP,
-                    meetingPlace = DEFAULT_MEETING_PLACE,
-                    participants = DEFAULT_PARTICIPANTS_LIST,
+                    room = DEFAULT_MEETING_PLACE,
+                    participants = DEFAULT_PARTICIPANTS_STRING,
                 )
             )
         }
@@ -160,5 +160,6 @@ class CreateMeetingUseCaseUnitTest {
             "participant2",
             "participant3"
         )
+        private const val DEFAULT_PARTICIPANTS_STRING = "participant1,participant2,participant3"
     }
 }
