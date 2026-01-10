@@ -41,6 +41,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flacinc.ui.model.UiMeeting
 import com.flacinc.ui.resources.Res
 import com.flacinc.ui.resources.arrow_back
+import com.flacinc.ui.resources.cd_animation
+import com.flacinc.ui.resources.cd_back
+import com.flacinc.ui.resources.meeting_detail_title
+import com.flacinc.ui.resources.meeting_details_error
 import com.flacinc.ui.theme.TodoKMPTheme
 import com.flacinc.ui.utils.model.MeetingPlace
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
@@ -71,7 +75,7 @@ fun MeetingDetailsScreen(
         modifier = modifier,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Détails de la réunion") },
+                title = { Text(stringResource(Res.string.meeting_detail_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -82,7 +86,7 @@ fun MeetingDetailsScreen(
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.arrow_back),
-                            contentDescription = "Back",
+                            contentDescription = stringResource(Res.string.cd_back),
                             Modifier.size(32.dp).padding(start = 8.dp)
                         )
                     }
@@ -163,12 +167,12 @@ fun MeetingDetailsError(
                 composition = composition,
                 progress = { progress }
             ),
-            contentDescription = "Animation",
+            contentDescription = stringResource(Res.string.cd_animation),
             modifier = Modifier.size(200.dp)
         )
 
         Text(
-            "Impossible de récupérer les détails de la réunion",
+            stringResource(Res.string.meeting_details_error),
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.displaySmall,
             textAlign = TextAlign.Center

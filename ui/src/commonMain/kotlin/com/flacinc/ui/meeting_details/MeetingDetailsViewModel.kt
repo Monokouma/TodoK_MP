@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class MeetingDetailsViewModel(
     private val getMeetingByIdUseCase: GetMeetingByIdUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<MeetingDetailsState>(MeetingDetailsState.Error)
+    private val _uiState = MutableStateFlow<MeetingDetailsState>(MeetingDetailsState.Loading)
     val uiState = _uiState.asStateFlow()
     fun onDetailsLoad(meetingId: Long) {
         viewModelScope.launch {

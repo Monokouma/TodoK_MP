@@ -8,8 +8,8 @@ import com.flacinc.domain.meeting.GetMeetingsUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory { CreateMeetingUseCase(get()) }
-    factory { GetMeetingsUseCase(get()) }
-    factory { DeleteOldMeetingUseCase(get()) }
+    factory { CreateMeetingUseCase(meetingRepository = get()) }
+    factory { GetMeetingsUseCase(meetingRepository = get()) }
+    factory { DeleteOldMeetingUseCase(meetingRepository = get()) }
     factory { GetMeetingByIdUseCase(meetingRepository = get()) }
 }

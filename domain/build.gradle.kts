@@ -1,17 +1,10 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.mokkery)
+    id("todok.kmp.library")
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
+    alias(libs.plugins.mokkery)
 }
 
 kotlin {
-    androidTarget()
-
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
@@ -35,8 +28,4 @@ kotlin {
 
 android {
     namespace = "com.flacinc.domain"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 28
-    }
 }

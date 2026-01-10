@@ -5,6 +5,7 @@ kotlin = "2.3.0"
 agp = "8.13.2"
 kotlinxCollectionsImmutable = "0.4.0"
 ksp = "2.3.0"
+kover = "0.9.4"
 
 # Android SDK
 android-compileSdk = "36"
@@ -116,6 +117,13 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+
+# ========================================
+# BUILD-LOGIC - Gradle Plugins as dependencies
+# ========================================
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kover-gradle-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 [plugins]
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

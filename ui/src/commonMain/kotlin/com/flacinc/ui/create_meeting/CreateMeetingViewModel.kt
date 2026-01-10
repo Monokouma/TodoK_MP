@@ -5,6 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flacinc.domain.error_manager.TodokError
 import com.flacinc.domain.meeting.CreateMeetingUseCase
+import com.flacinc.ui.resources.Res
+import com.flacinc.ui.resources.error
+import com.flacinc.ui.resources.meeting_participants_empty_value
+import com.flacinc.ui.resources.meeting_subject_empty_value
+import com.flacinc.ui.resources.meeting_title_empty_value
 import com.flacinc.ui.utils.model.MeetingPlace
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -50,7 +55,6 @@ class CreateMeetingViewModel(
     }
 
     fun updateTimestamp(value: Long) {
-        println(value)
         _uiState.update { it.copy(timestamp = value) }
     }
 
@@ -96,10 +100,10 @@ class CreateMeetingViewModel(
     }
 
     private fun transformErrorMessage(error: Throwable) = when (error.message) {
-        TodokError.MEETING_TITLE_EMPTY_VALUE.message -> "Le titre ne peut pas être vide"
-        TodokError.MEETING_SUBJECT_EMPTY_VALUE.message -> "Le sujet ne peut pas être vide"
-        TodokError.MEETING_PARTICIPANTS_EMPTY_VALUE.message -> "Vous devez ajouter au moins un participant"
-        else -> "Erreur inconnue"
+        TodokError.MEETING_TITLE_EMPTY_VALUE.message -> Res.string.meeting_title_empty_value
+        TodokError.MEETING_SUBJECT_EMPTY_VALUE.message -> Res.string.meeting_subject_empty_value
+        TodokError.MEETING_PARTICIPANTS_EMPTY_VALUE.message -> Res.string.meeting_participants_empty_value
+        else -> Res.string.error
     }
 
 }

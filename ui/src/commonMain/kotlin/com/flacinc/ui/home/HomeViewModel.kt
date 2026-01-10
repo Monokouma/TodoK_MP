@@ -54,8 +54,6 @@ class HomeViewModel(
     ): PersistentList<UiMeeting> = when (sortOrder) {
         SortOrder.NAME_ASC -> meetings.sortedBy { it.title }
         SortOrder.NAME_DESC -> meetings.sortedByDescending { it.title }
-        SortOrder.DATE_ASC -> meetings.sortedBy { it.timestamp }
-        SortOrder.DATE_DESC -> meetings.sortedByDescending { it.timestamp }
     }.toPersistentList()
 
     fun cleanOldMeetings() {

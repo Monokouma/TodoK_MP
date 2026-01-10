@@ -1,17 +1,10 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.sqldelight)
+    id("todok.kmp.library")
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
-    androidTarget()
-
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         commonMain.dependencies {
             implementation(project(":domain"))
@@ -19,8 +12,6 @@ kotlin {
             implementation(libs.sqldelight.coroutines)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.coroutines.core)
         }
 
@@ -51,10 +42,6 @@ kotlin {
 
 android {
     namespace = "com.flacinc.data"
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 28
-    }
 }
 
 sqldelight {

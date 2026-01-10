@@ -6,7 +6,7 @@ import com.flacinc.data.meeting.mapper.toEntity
 import com.flacinc.domain.meeting.MeetingRepository
 import com.flacinc.domain.meeting.entity.MeetingEntity
 import com.flacinc.todokmp.data.database.sql.MeetingQueries
-import io.ktor.utils.io.CancellationException
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
