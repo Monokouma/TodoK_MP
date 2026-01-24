@@ -31,8 +31,8 @@ fun timeStringToMillis(
 
     val newDateTime = LocalDateTime(
         year = baseDateTime.year,
-        monthNumber = baseDateTime.dayOfMonth,
-        dayOfMonth = baseDateTime.day,
+        monthNumber = baseDateTime.monthNumber,
+        dayOfMonth = baseDateTime.dayOfMonth,
         hour = hour,
         minute = minute,
         second = 0,
